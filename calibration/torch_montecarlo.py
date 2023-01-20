@@ -1,6 +1,6 @@
 from calibration.torch_utils import *
 import torch
-from empirical_learning.plot_functions import *
+from empirical_study.plot_functions import *
 
 
 def exp_kernel_GPU(t, lam, c=1):

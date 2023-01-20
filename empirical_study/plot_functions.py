@@ -8,7 +8,7 @@ from sklearn.linear_model import LinearRegression
 import copy
 import numpy as np
 import pandas as pd
-from empirical_learning.utils import dt, shifted_power_law
+from empirical_study.utils import dt, shifted_power_law
 import statsmodels.api as sm
 
 lowess = sm.nonparametric.lowess
@@ -368,7 +368,7 @@ if __name__ == '__main__':
 
     p = 1
     setting = [(1, (1, 2)), (2, 1 / 2)]
-    from empirical_learning.historical_learning_tspl import find_optimal_parameters_tspl,data_between_dates
+    from empirical_study.empirical_study_tspl import find_optimal_parameters_tspl,data_between_dates
     sol_tspl = find_optimal_parameters_tspl(vol=vix, index=spx, p=p, setting=setting,
                                             optimize_delta=optimize_delta, train_start_date=train_start,
                                             test_start_date=test_start, test_end_date=test_end,

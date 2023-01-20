@@ -1,13 +1,13 @@
-from empirical_learning.historical_learning_tspl import find_optimal_parameters_tspl
-from empirical_learning.historical_learning_2exp import find_optimal_parameters_exp
-from empirical_learning.utils import dataframe_of_returns, train_start_date, test_start_date, test_end_date
+from empirical_study.empirical_study_tspl import find_optimal_parameters_tspl
+from empirical_study.empirical_study_2exp import find_optimal_parameters_exp
+from empirical_study.utils import dataframe_of_returns, train_start_date, test_start_date, test_end_date
 import pandas as pd
 import numpy as np
 
 
-def perform_historical_learning(index, vol, setting=((1,1), (2, 1/2)), tspl=True, p=1,
-                                 train_start_date=train_start_date, test_start_date=test_start_date,
-                                 test_end_date=test_end_date, max_delta=1000):
+def perform_empirical_study(index, vol, setting=((1, 1), (2, 1 / 2)), tspl=True, p=1,
+                            train_start_date=train_start_date, test_start_date=test_start_date,
+                            test_end_date=test_end_date, max_delta=1000):
     """
     Find the best parameters for the model defined by setting and p (see `historical_analysis.ipynb` on how it is defined)
     :param index: pd.Series. Timeseries of historical price of the index

@@ -1,4 +1,4 @@
-from empirical_learning.historical_learning_tspl import *
+from empirical_study.empirical_study_tspl import *
 
 
 def exp_kernel(t, lam, c=1):
@@ -303,7 +303,7 @@ def find_optimal_parameters_exp(vol, index, p=1, setting=((1, 1), (2, 1/2)),
         iter += size
 
     keys = ['beta_0', 'betas', 'thetas', 'lambdas']
-
+    features = ordered_dict_to_dataframe(train_features, test_features, setting)
     ans = {'sol': sol, 'opt_params': {keys[i]: split_opt_params[i] for i in range(len(keys))},
            'setting': setting, 'p': p,
            'norm_coef': norm_coeff, 'importance': importance,
@@ -313,6 +313,7 @@ def find_optimal_parameters_exp(vol, index, p=1, setting=((1, 1), (2, 1/2)),
            'test_rmse': mean_squared_error(y_true=vol_test, y_pred=vol_pred_test, squared=False),
            'train_r2': r2_score(y_true=vol_train, y_pred=vol_pred_train),
            'test_r2': r2_score(y_true=vol_test, y_pred=vol_pred_test),
+           'features': features,
            'train_features': train_features,
            'test_features': test_features,
            'initial_parameters': {keys[i]: split_parameters_exp(parameters=initial_parameters, setting=setting)[i] for i in

@@ -4,7 +4,7 @@ from collections.abc import Iterable
 from collections import OrderedDict
 from scipy.optimize import least_squares
 from sklearn.metrics import r2_score, mean_squared_error
-from empirical_learning.utils import *
+from empirical_study.utils import *
 
 
 def deriv_alpha_shift_power_law(t, alpha, delta):
@@ -593,45 +593,31 @@ def fit_arch_model(vol, index, max_delta=200, step_delta=5, train_start_date=tra
               }
     return output
 
+if __name__ == '__main__':
+    import yfinance as yf
 
-def main():
-    # A dictionary of settings are given in MODELS
-    global_data = load_all_historical_prices()
-    vol = global_data['vix']
-    index = global_data['spx']
-    name = 'linear_R_sigma'
-    model = MODELS[name]
-    max_delta = 1000
-    fixed_initial = False
-    use_jacob = True
-    optimize_delta = True
+    load_from = pd.to_datetime('1995-01-01')
+    train_start_date = pd.to_datetime('2000-01-01')  # pd.to_datetime('2008-01-01')
+    test_start_date = pd.to_datetime('2019-01-01')
+    test_end_date = pd.to_datetime('2022-05-15')
+
+    spx_data = yf.Ticker("^GSPC").history(start=load_from, end=test_end_date)
+    vix_data = yf.Ticker("^VIX").history(start=load_from, end=test_end_date)
+
+    spx_data.index = pd.to_datetime(spx_data.index.date)
+    vix_data.index = pd.to_datetime(vix_data.index.date)
+
+    spx = spx_data['Close']
+    vix = vix_data['Close'] / 100
+
+    max_delta = 1000  # Number of past returns used in the computation of R_{n,t} in business days
     test_start = test_start_date
     test_end = test_end_date
-    use_alternate = False
-    train_start =  train_start_date
+    train_start = train_start_date
+    tspl = True
 
-    # p = model['p']
-    # setting = model['setting']
     p = 1
-    setting = [(1, 1), (1, 2), (2, 0.5)]
-    sol = find_optimal_parameters_tspl(vol, index, p=p, setting=setting,
-                                       optimize_delta=optimize_delta, train_start_date=train_start,
-                                       test_start_date=test_start, test_end_date=test_end,
-                                       max_delta=max_delta, fixed_initial=fixed_initial, use_jacob=use_jacob)
-    # There is a specific function for parent model (M3) and GJR model (M4) as they do not share the same jacobians as all the other models
-    # if name in ('GJR', 'parent'):
-    #     parent = (name == 'parent')
-    #     sol = optimal_parameters_GJR_parent(vol, index, optimize_delta=optimize_delta,
-    #                                         train_start_date=train_start, test_start_date=test_start,
-    #                                         test_end_date=test_end, max_delta=max_delta, fixed_initial=fixed_initial,
-    #                                         use_jacob=use_jacob, parent=parent)
-    # else:
-    #     sol = find_optimal_parameters_tspl(vol, index, p=p, setting=setting,
-    #                                        optimize_delta=optimize_delta, train_start_date=train_start,
-    #                                        test_start_date=test_start, test_end_date=test_end,
-    #                                        max_delta=max_delta, fixed_initial=fixed_initial, use_jacob=use_jacob)
-    return sol
-
-if __name__ == '__main__':
-    sol = main()
-    print(sol)
+    setting = [(1, 1), (2, 1 / 2)]  # Our Linear Model
+    sol = find_optimal_parameters_tspl(vol=vix, index=spx, p=p, setting=setting, train_start_date=train_start,
+                                      test_start_date=test_start, test_end_date=test_end,
+                                      max_delta=max_delta)
