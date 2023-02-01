@@ -15,7 +15,7 @@ def squared(x):
     return x ** 2
 
 
-def initialize_R_GPU(lam, past_prices=None, max_delta=500, transform=identity):
+def initialize_R(lam, past_prices=None, max_delta=1000, transform=identity):
     """
     Initialize the R_j for the 4FMPDV model.
     :param lam: torch.tensor of size 2. contains \lambda_{j,1} and \lambda_{j,2}
