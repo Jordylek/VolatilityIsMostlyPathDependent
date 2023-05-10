@@ -107,7 +107,7 @@ class TorchMonteCarloExponentialModel:
         """
         vol = self.betas[0] + self.betas[1] * R_1 + self.betas[2] * torch.sqrt(R_2) + self.parabolic * (
                 R_1 - self.parabolic_offset).clamp(
-            min=0) * 2
+            min=0) ** 2
         if self.vol_cap is None:
             return vol
         return vol.clamp(max=self.vol_cap)
