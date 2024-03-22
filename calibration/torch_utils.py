@@ -33,9 +33,9 @@ def black_gammaGPU(K, T, F, vol):
 
     :param K: torch.Tensor of shape k
     :param T: float, maturity
-    :param F: torch.Tensor of shape N or float, forward price
+    :param F: torch.Tensor of shape number_paths or float, forward price
     :param vol: float,
-    :return: torch.Tensor of shape k x N containing the Black Gamma
+    :return: torch.Tensor of shape k x number_paths containing the Black Gamma
     """
     T = convert_to_tensor(T, array=False)
     vol = convert_to_tensor(vol, array=False)
@@ -52,9 +52,9 @@ def black_vegaGPU(K, T, F, vol):
 
     :param K: torch.Tensor of shape k
     :param T: float, maturity
-    :param F: torch.Tensor of shape N or float, forward price
+    :param F: torch.Tensor of shape number_paths or float, forward price
     :param vol: float,
-    :return: torch.Tensor of shape k x N containing the Black Vega
+    :return: torch.Tensor of shape k x number_paths containing the Black Vega
     """
     T = convert_to_tensor(T, array=False)
     vol = convert_to_tensor(vol, array=False)
@@ -71,9 +71,9 @@ def black_priceGPU(K, T, F, vol):
 
     :param K: torch.Tensor of shape k
     :param T: float, maturity
-    :param F: torch.Tensor of shape N or float, forward prices
+    :param F: torch.Tensor of shape number_paths or float, forward prices
     :param vol: float,
-    :return: torch.Tensor of shape k x N containing the Black price
+    :return: torch.Tensor of shape k x number_paths containing the Black price
     """
     T = convert_to_tensor(T, array=False)
     vol = convert_to_tensor(vol, array=False)
@@ -89,8 +89,8 @@ def black_imp_volGPU_old(K, T, F, price, iters=1000):
 
     :param K: torch.Tensor of shape k
     :param T: float, maturity
-    :param F: torch.Tensor of shape N or float, forward prices
-    :param price: torch.Tensor of shape k x N
+    :param F: torch.Tensor of shape number_paths or float, forward prices
+    :param price: torch.Tensor of shape k x number_paths
     :param iters: integer. Number of iterations in Newton's method
     :return:
     """

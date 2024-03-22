@@ -284,7 +284,8 @@ cmap = get_continuous_cmap(hexlist)
 
 
 def plot_3d(X, Y, Z, N_points_per_ax=20, view=(10, 35), tickpad=-5, labelpad=15, coeffs=None,
-            xlabel=None, ylabel=None, zlabel=None, cbar_location='right', cbar_label=None):
+            xlabel=None, ylabel=None, zlabel=None, cbar_location='right', cbar_label=None,
+            figsize=figsize):
     fig = plt.figure(figsize=figsize)
     ax = fig.add_subplot(projection='3d')
     N = N_points_per_ax
