@@ -327,8 +327,8 @@ def find_optimal_parameters_tspl(vol, index, p=1, setting=((1, 1), (2, 1/2)), op
                                  init_parameters=None):
     """
     Computes the optimal parameters to linearly estimate vol^p using the previous returns of index.
-    :param vol: str. Name of the predicted volatility
-    :param index: str. Name of the market index
+    :param vol: pd.Series of historical market prices of volatility index or realized vol
+    :param index: pd.Series of historical market prices of index
     :param p: int (usually 1 or 2). Target of the prediction of vol^p
     :param setting: list of tuples. Each tuple is either a (i,j) or (i, (j1, dots, jk)).
     This means that each R_i^{j_l} is a feature of the regression, where R_i= \sum_t K(t) r_t^i
@@ -516,8 +516,8 @@ def fit_arch_model(vol, index, max_delta=200, step_delta=5, train_start_date=tra
                    test_end_date=test_end_date, values_of_p=None):
     """
     Fit Arch model
-    :param vol: str. Name of the predicted volatility
-    :param index: str. Name of the market index
+    :param vol: pd.Series of historical market prices of volatility index or realized vol
+    :param index: pd.Series of historical market prices of index
     :param max_delta: int, default 1000. Number of days used to compute the past returns for each day
     :param step_delta: if values_of_p is None, try all ARCH(p) for p in 0:max_delta:step_delta
     :param train_start_date:

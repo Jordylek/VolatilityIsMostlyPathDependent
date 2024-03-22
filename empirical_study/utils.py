@@ -172,7 +172,8 @@ def dataframe_of_returns(index, vol, max_delta=1000):
     """
     df = pd.DataFrame.from_dict({'index': index, 'vol': vol})
     df.dropna(subset=['index'], inplace=True)  # remove closed days
-    df.loc[1:, 'return_1d'] = np.diff(df['index']) / df['index'].iloc[1:]
+    df['return_1d'] = df['index']  / df['index'].shift(1) - 1
+    # df.loc[1:, 'return_1d'] = np.diff(df['index']) / df['index'].iloc[1:]
     lags = np.arange(0, max_delta)
     df = df.merge(pd.DataFrame({
         f'r_(t-{lag})': df.return_1d.shift(lag)

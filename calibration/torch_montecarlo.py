@@ -300,7 +300,7 @@ class TorchMonteCarloExponentialModel:
         compute the VIX via nested MC for each path at timestep vix_maturity
         :param vix_maturity: float,
         :param n_batch: int. Divides the paths in batches to compute VIX. This allows to save memory.
-        :return: tensor of size self.N. VIX per path
+        :return: tensor of size self.number_paths. VIX per path
         """
         if subset is None:
             subset = torch.arange(self.N)
@@ -349,7 +349,7 @@ class TorchMonteCarloExponentialModel:
     def daily_realized_volatilities(self):
         """
         computes the daily realized volatilities
-        :return: torch.tensor of shape (self.maturity*252, self.N)
+        :return: torch.tensor of shape (self.maturity*252, self.number_paths)
         """
         s = self.S_array[1:, :]  # include the first timestep of the day (eod=begin next day)
         s_per_day = s.reshape(-1, self.timestep_per_day, self.N)
